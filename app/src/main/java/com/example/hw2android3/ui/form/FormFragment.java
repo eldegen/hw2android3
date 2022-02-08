@@ -24,7 +24,7 @@ import retrofit2.Response;
 public class FormFragment extends Fragment {
 
     private static final int groupId = 38;
-    private static final int userId = 0;
+    private static final int userId = 1;
     private FragmentFormBinding binding;
 
     public FormFragment() {
@@ -47,7 +47,7 @@ public class FormFragment extends Fragment {
                 public void onClick(View v) {
                     String title = binding.etTitle.getText().toString();
                     String content = binding.etContent.getText().toString();
-                    Post post = new Post(title, content, groupId, userId);
+                    Post post = new Post(title, content, userId, groupId);
                     App.api.createPost(post).enqueue(new Callback<Post>() {
                         @Override
                         public void onResponse(Call<Post> call, Response<Post> response) {

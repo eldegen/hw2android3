@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.hw2android3.App;
 import com.example.hw2android3.R;
@@ -64,6 +65,32 @@ public class PostFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
 
+            }
+        });
+
+        refreshList();
+    }
+
+    private void refreshList() {
+        binding.fabReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.clearArray();
+
+                App.api.getPosts().enqueue(new Callback<List<Post>>() {
+                    @Override
+                    public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            Toast.makeText(getContext(), "Updated!", Toast.LENGTH_SHORT).show();
+                            adapter.setPosts(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Post>> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }

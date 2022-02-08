@@ -20,6 +20,7 @@ import com.example.hw2android3.data.models.Post;
 import com.example.hw2android3.databinding.ItemPostBinding;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -99,6 +100,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return posts.size();
     }
 
+    public void clearArray() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
+
     // ViewHolder
     protected class PostViewHolder extends RecyclerView.ViewHolder {
         private ItemPostBinding binding;
@@ -108,7 +114,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
 
         public void onBind(Post post) {
-            binding.tvUserId.setText(String.valueOf(post.getUserId()));
+            HashMap<Integer, String> names = new HashMap<>();
+            names.put(0, "server");
+            names.put(1, "pizza");
+            names.put(2, "eldeg");
+
+            String nameBuffer = names.getOrDefault(post.getUserId(), "*Unknown user*");
+
+            binding.tvUserId.setText(nameBuffer);
             binding.tvTitle.setText(post.getTitle());
             binding.tvContent.setText(post.getContent());
         }
